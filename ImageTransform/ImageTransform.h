@@ -15,7 +15,6 @@ public:
     ImageTransform( QWidget *parent = nullptr );
     ~ImageTransform();
 
-    //Q_ENUM(models);
     std::string GetFilePath();
     void SetFilePath();
     void Start();

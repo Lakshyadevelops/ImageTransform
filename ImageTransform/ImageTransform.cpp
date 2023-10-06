@@ -1,7 +1,6 @@
 #include "ImageTransform.h"
 #include<qfiledialog.h>
 #include<qmessagebox.h>
-#include<qmetaobject.h>
 #include<opencv2/opencv.hpp>
 #include "Run.h"
 
@@ -18,11 +17,10 @@ ImageTransform::ImageTransform(QWidget *parent)
 
     connect(ui.pb_start, &QPushButton::clicked, this, &ImageTransform::Start);
     
-    /* TO DO - e=create enunm and display elements in QComboBox
-    QMetaEnum metaEnum = QMetaEnum::fromType<models>(models);
-    for (int i = 0; i < metaEnum.keyCount(); ++i) {
-        ui.cb_model_select->addItem(metaEnum.key(i));
-    }*/
+    for (Models model : ModelsList) {
+        ui.cb_model_select->addItem(QString::fromStdString(r_.getModelName(model)));
+    }
+    
 
 
 }
@@ -60,7 +58,10 @@ void ImageTransform::Start() {
             this,
             tr(""),
             tr("Select File"));
+        return;
     }
+
+    r_.run(ui.cb_model_select->currentIndex(),m_img_list_,m_hyper_parameters_);
 
 
 }
