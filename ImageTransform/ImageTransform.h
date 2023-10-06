@@ -19,6 +19,8 @@ public:
     void SetFilePath();
     void Start();
 
+    void ThrowEmptyPathError();
+
 private:
     Ui::ImageTransformClass ui;
     std::string m_file_path_;

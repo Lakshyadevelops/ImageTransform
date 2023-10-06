@@ -39,6 +39,9 @@ void ImageTransform::SetFilePath()
 {
     if (m_single_image_) {
         m_file_path_ = QFileDialog::getOpenFileName(nullptr, "Select a File").toStdString();
+        if (m_file_path_.empty()) {
+            return;
+        }
         cv::Mat img = cv::imread(m_file_path_);
 
         cv::cvtColor(img, img, cv::COLOR_BGR2RGB);
@@ -49,19 +52,26 @@ void ImageTransform::SetFilePath()
     }
     else {
         m_file_path_ = QFileDialog::getExistingDirectory(nullptr).toStdString();
+        
+        // TO DO load all images
     }
 }
 
 void ImageTransform::Start() {
     if (m_file_path_.empty()) {
-        QMessageBox::information(
-            this,
-            tr(""),
-            tr("Select File"));
+        ThrowEmptyPathError();
         return;
     }
 
     r_.run(ui.cb_model_select->currentIndex(),m_img_list_,m_hyper_parameters_);
 
 
+}
+
+void ImageTransform::ThrowEmptyPathError()
+{
+    QMessageBox::information(
+        this,
+        tr(""),
+        tr("Select File"));
 }
