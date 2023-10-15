@@ -61,19 +61,21 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\Dependencies\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include;$(ProjectDir)..\Dependencies\TensorRT-8.6.1.6\include\;$(ProjectDir)..\Dependencies\OpenCV\build\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world480d.lib;nvinfer.lib;nvparsers.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\Dependencies\TensorRT-8.6.1.6\lib;$(ProjectDir)..\Dependencies\opencv\build\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world480d.lib;nvinfer.lib;nvonnxparser.lib;cudart.lib;opencv_cudaimgproc480.lib;opencv_cudaarithm480.lib;opencv_cudawarping480.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Dependencies\NVIDIA GPU Computing Toolkit\CUDA\v11.8\lib\x64;$(ProjectDir)..\Dependencies\TensorRT-8.6.1.6\lib;$(ProjectDir)..\Dependencies\opencv\build\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\Dependencies\opencv\build\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world480.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Dependencies\NVIDIA GPU Computing Toolkit\CUDA\v11.8\lib\x64;$(ProjectDir)..\Dependencies\opencv\build\x64\vc16\lib;$(ProjectDir)..\Dependencies\TensorRT-8.6.1.6\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world480.lib;nvinfer.lib;nvonnxparser.lib;cudart.lib;opencv_cudaimgproc480.lib;opencv_cudaarithm480.lib;opencv_cudawarping480.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\Dependencies\NVIDIA GPU Computing Toolkit\CUDA\v11.8\include;$(ProjectDir)..\Dependencies\TensorRT-8.6.1.6\include\;$(ProjectDir)..\Dependencies\OpenCV\build\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -101,7 +103,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Run.cpp" />
+    <ClCompile Include="Util.cpp" />
     <QtRcc Include="ImageTransform.qrc" />
     <QtUic Include="ImageTransform.ui" />
     <QtMoc Include="ImageTransform.h" />
@@ -111,7 +116,10 @@
     <ResourceCompile Include="ImageTransform.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Run.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

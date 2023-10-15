@@ -27,7 +27,6 @@ private:
     bool m_single_image_;
     std::vector< cv::Mat > m_img_list_;
     int m_model_selected;
-    std::unordered_map< int, std::string > model_names;
     std::unordered_map< std::string, int > m_hyper_parameters_;
     Run r_;
     
