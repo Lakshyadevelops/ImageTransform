@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.1\build\native\Microsoft.ML.OnnxRuntime.Gpu.props" Condition="Exists('..\packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.1\build\native\Microsoft.ML.OnnxRuntime.Gpu.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -64,7 +65,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opencv_world480d.lib;nvinfer.lib;nvonnxparser.lib;cudart.lib;opencv_cudaimgproc480.lib;opencv_cudaarithm480.lib;opencv_cudawarping480.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world480d.lib;nvinfer.lib;nvonnxparser.lib;cudart.lib;opencv_cudaimgproc480d.lib;opencv_cudaarithm480d.lib;opencv_cudawarping480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\Dependencies\NVIDIA GPU Computing Toolkit\CUDA\v11.8\lib\x64;$(ProjectDir)..\Dependencies\TensorRT-8.6.1.6\lib;$(ProjectDir)..\Dependencies\opencv\build\x64\vc16\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -107,6 +108,7 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Run.cpp" />
     <ClCompile Include="Util.cpp" />
+    <None Include="packages.config" />
     <QtRcc Include="ImageTransform.qrc" />
     <QtUic Include="ImageTransform.ui" />
     <QtMoc Include="ImageTransform.h" />
@@ -126,5 +128,13 @@
     <Import Project="$(QtMsBuild)\qt.targets" />
   </ImportGroup>
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.1\build\native\Microsoft.ML.OnnxRuntime.Gpu.targets" Condition="Exists('..\packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.1\build\native\Microsoft.ML.OnnxRuntime.Gpu.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.1\build\native\Microsoft.ML.OnnxRuntime.Gpu.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.1\build\native\Microsoft.ML.OnnxRuntime.Gpu.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.1\build\native\Microsoft.ML.OnnxRuntime.Gpu.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.ML.OnnxRuntime.Gpu.1.16.1\build\native\Microsoft.ML.OnnxRuntime.Gpu.targets'))" />
+  </Target>
 </Project>

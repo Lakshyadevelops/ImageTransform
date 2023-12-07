@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[])
 {
+    freopen("Logs.txt", "w", stdout);
     QApplication a(argc, argv);
     ImageTransform w;
     w.show();

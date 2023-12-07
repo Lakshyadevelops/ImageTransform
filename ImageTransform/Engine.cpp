@@ -177,7 +177,7 @@ bool Engine::build(std::string onnxModelPath, const std::array<float, 3>& subVal
     std::ofstream outfile(m_engineName, std::ofstream::binary);
     outfile.write(reinterpret_cast<const char*>(plan->data()), plan->size());
 
-    std::cout << "Success, saved engine to " << m_engineName << std::endl;
+    m_logger.CustomLog("Success, saved engine to " + m_engineName);
 
     checkCudaErrorCode(cudaStreamDestroy(profileStream));
     return true;
@@ -283,8 +283,8 @@ bool Engine::loadNetwork() {
 bool Engine::runInference(const std::vector<std::vector<cv::cuda::GpuMat>>& inputs, std::vector<std::vector<std::vector<float>>>& featureVectors) {
     // First we do some error checking
     if (inputs.empty() || inputs[0].empty()) {
-        std::cout << "===== Error =====" << std::endl;
-        std::cout << "Provided input vector is empty!" << std::endl;
+        m_logger.CustomLog("===== Error =====");
+        m_logger.CustomLog("Provided input vector is empty!");
         return false;
     }
 

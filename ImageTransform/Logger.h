@@ -10,7 +10,10 @@ public:
 
     ~Logger();
 
-    void CustomLog(std::string str);
+    void CustomLog(std::string str)
+    {
+        logging << str << std::endl;
+    }
 
-    void log(Severity severity, const char* msg) noexcept override;
+     inline void log(Severity severity, const char* msg) noexcept override;
 };

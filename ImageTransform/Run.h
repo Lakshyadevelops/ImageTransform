@@ -14,7 +14,7 @@ class Run
 		Run();
 		~Run();
 		std::string getModelName(Models);
-		void run(const int&,std::vector<cv::Mat>&,std::unordered_map<std::string,int>&);
+		void run(int,std::vector<cv::Mat>&,std::unordered_map<std::string,int>&,bool);
 
 	private:
 		Engine* engine;

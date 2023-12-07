@@ -42,11 +42,28 @@ void ImageTransform::SetFilePath()
         if (m_file_path_.empty()) {
             return;
         }
-        cv::Mat img = cv::imread(m_file_path_);
+        cv::Mat img = cv::imread(m_file_path_,cv::IMREAD_UNCHANGED);
+        QImage qImage;
 
-        cv::cvtColor(img, img, cv::COLOR_BGR2RGB);
-
-        QImage qImage((const unsigned char*)img.data, img.cols, img.rows, QImage::Format_RGB888);
+        if (img.channels()==1) {
+            cv::cvtColor(img, img, cv::COLOR_GRAY2RGB);
+            m_img_BW_ = true;
+            qImage = QImage((const unsigned char*)img.data, img.cols, img.rows, img.step, QImage::Format_Grayscale8);
+        }
+        else if(img.channels()==3) {
+            cv::cvtColor(img, img, cv::COLOR_BGR2RGB);
+            m_img_BW_ = false;
+            qImage = QImage((const unsigned char*)img.data, img.cols, img.rows, img.step, QImage::Format_RGB888);
+        }
+        else if(img.channels()==4){
+            cv::cvtColor(img, img, cv::COLOR_BGRA2RGB);
+            m_img_BW_ = false;
+            qImage = QImage((const unsigned char*)img.data, img.cols, img.rows, img.step, QImage::Format_RGB888);
+        }
+        else {
+            std::cout << "ERROR : unhandled Channels. Channels are " << img.channels() << std::endl;
+        }
+        m_img_list_.push_back(img);
 
         ui.lb_input_image->setPixmap(QPixmap::fromImage(qImage));
     }
@@ -63,8 +80,9 @@ void ImageTransform::Start() {
         return;
     }
 
-    r_.run(ui.cb_model_select->currentIndex(),m_img_list_,m_hyper_parameters_);
-
+    r_.run(ui.cb_model_select->currentIndex(),m_img_list_,m_hyper_parameters_,m_img_BW_);
+    m_img_list_.clear();
+    m_file_path_.clear();
 
 }
 
